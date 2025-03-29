@@ -4,18 +4,58 @@ import { Google, Facebook, GitHub, LinkedIn } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import "../styles/login.css";
 
-const SignIn = ({ toggleAuthMode }) => {
+const AuthPage = () => {
   const navigate = useNavigate();
+  const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign In & Sign Up
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  const handleLogin = () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser && storedUser.email === email && storedUser.password === password) {
-      localStorage.setItem("authToken", "sample_token");
-      navigate("/home");
-    } else {
-      alert("Invalid credentials");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const toggleAuthMode = () => {
+    setIsSignUp(!isSignUp);
+    setError(""); 
+    setMessage(""); 
+  };
+
+  // Function to handle login
+  const handleLogin = async () => {
+    setError("");
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) throw new Error("Invalid email or password");
+
+      const data = await response.json();
+      localStorage.setItem("authToken", data.token); // Store JWT token
+      navigate("/home"); // Redirect to home page after login
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  // Function to handle sign up
+  const handleSignUp = async () => {
+    setError("");
+    setMessage("");
+    try {
+      const response = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) throw new Error("Registration failed. Try again.");
+
+      setMessage("Account created successfully! Please sign in.");
+      setIsSignUp(false); // Switch to login
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -23,76 +63,50 @@ const SignIn = ({ toggleAuthMode }) => {
     <Container maxWidth="sm" className="auth-container">
       <Box className="auth-box">
         <Typography variant="h4" align="center" gutterBottom>
-          Sign In
+          {isSignUp ? "Create Account" : "Sign In"}
         </Typography>
+
+        {error && <Typography color="error" align="center">{error}</Typography>}
+        {message && <Typography color="primary" align="center">{message}</Typography>}
+
         <Grid container justifyContent="center" spacing={1}>
           <Grid item><IconButton color="primary"><Google /></IconButton></Grid>
           <Grid item><IconButton color="primary"><Facebook /></IconButton></Grid>
           <Grid item><IconButton color="primary"><GitHub /></IconButton></Grid>
           <Grid item><IconButton color="primary"><LinkedIn /></IconButton></Grid>
         </Grid>
+
         <Typography variant="body2" align="center" gutterBottom>
-          or use your email for login
+          or use your email to {isSignUp ? "register" : "login"}
         </Typography>
+
         <form>
+          {isSignUp && (
+            <TextField fullWidth label="Name" margin="normal" required onChange={(e) => setName(e.target.value)} />
+          )}
           <TextField fullWidth label="Email" type="email" margin="normal" required onChange={(e) => setEmail(e.target.value)} />
           <TextField fullWidth label="Password" type="password" margin="normal" required onChange={(e) => setPassword(e.target.value)} />
-          <Typography variant="body2" align="right"><a href="#">Forgot Your Password?</a></Typography>
-          <Button fullWidth variant="contained" color="primary" sx={{ mt: 2 }} onClick={handleLogin}>Sign In</Button>
+          {!isSignUp && <Typography variant="body2" align="right"><a href="#">Forgot Your Password?</a></Typography>}
+          <Button 
+            fullWidth 
+            variant="contained" 
+            color="primary" 
+            sx={{ mt: 2 }} 
+            onClick={isSignUp ? handleSignUp : handleLogin}
+          >
+            {isSignUp ? "Sign Up" : "Sign In"}
+          </Button>
         </form>
+
         <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-          Don't have an account? <Button color="secondary" onClick={toggleAuthMode}>Sign Up</Button>
+          {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+          <Button color="secondary" onClick={toggleAuthMode}>
+            {isSignUp ? "Sign In" : "Sign Up"}
+          </Button>
         </Typography>
       </Box>
     </Container>
   );
-};
-
-const SignUp = ({ toggleAuthMode }) => {
-  const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
-  const handleSignUp = () => {
-    localStorage.setItem("user", JSON.stringify({ name, email, password }));
-    alert("Account created successfully! Please sign in.");
-    toggleAuthMode();
-  };
-
-  return (
-    <Container maxWidth="sm" className="auth-container">
-      <Box className="auth-box">
-        <Typography variant="h4" align="center" gutterBottom>
-          Create Account
-        </Typography>
-        <Grid container justifyContent="center" spacing={1}>
-          <Grid item><IconButton color="primary"><Google /></IconButton></Grid>
-          <Grid item><IconButton color="primary"><Facebook /></IconButton></Grid>
-          <Grid item><IconButton color="primary"><GitHub /></IconButton></Grid>
-          <Grid item><IconButton color="primary"><LinkedIn /></IconButton></Grid>
-        </Grid>
-        <Typography variant="body2" align="center" gutterBottom>
-          or use your email for registration
-        </Typography>
-        <form>
-          <TextField fullWidth label="Name" margin="normal" required onChange={(e) => setName(e.target.value)} />
-          <TextField fullWidth label="Email" type="email" margin="normal" required onChange={(e) => setEmail(e.target.value)} />
-          <TextField fullWidth label="Password" type="password" margin="normal" required onChange={(e) => setPassword(e.target.value)} />
-          <Button fullWidth variant="contained" color="primary" sx={{ mt: 2 }} onClick={handleSignUp}>Sign Up</Button>
-        </form>
-        <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-          Already have an account? <Button color="secondary" onClick={toggleAuthMode}>Sign In</Button>
-        </Typography>
-      </Box>
-    </Container>
-  );
-};
-
-const AuthPage = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const toggleAuthMode = () => setIsSignUp(!isSignUp);
-  return isSignUp ? <SignUp toggleAuthMode={toggleAuthMode} /> : <SignIn toggleAuthMode={toggleAuthMode} />;
 };
 
 export default AuthPage;
