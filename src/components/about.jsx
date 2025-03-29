@@ -47,9 +47,6 @@ const About = () => {
           </Col>
           <Col md={6}>
             <h3 className="about-heading">Transforming Spaces, Elevating Lifestyles</h3>
-            {/* <p className="about-text">
-              At Ktb, we believe that interior design is more than great functionality and beautiful aesthetics...
-            </p> */}
             <p className="about-text">
               At Ktb, we believe that interior design is more than great functionality and beautiful aesthetics. We aim to make your home interiors a reflection of your personality. Your home should be something that you and your family take pride in and love to spend time in. Our efficient, customized home interior designs incorporate your needs in every nook of your home, so your space meets your every requirement. Our dedicated home interior designers work with you tirelessly to tie your style with their design expertise, creating the perfect interior design plan. They will also ensure that the plan is executed using the materials of the highest standards. In addition to great interior design ideas, you can expect our unwavering support and service for years to come because all our products come with up to 10 year warranty. Think we are the right fit for your journey to your new home? Get a free estimate or a book a free consultation with our interior design team for beautiful home interiors. We offer interior design ideas for living room, bedroom and kitchen. We specialize in complete modular kitchens, stunning wardrobe designs, timeless TV unit designs, and space-saving furniture among other. What’s more, we guarantee beautiful interiors delivered in 45 days or we pay you rent.
             </p>
@@ -66,7 +63,6 @@ const About = () => {
         </Row>
       </Container>
 
-      {/* Designers Section */}
       <Container className="mt-5">
         <h2 className="text-center mb-4">Top Interior Designer About Pages</h2>
         {designers.map((designer, index) => (

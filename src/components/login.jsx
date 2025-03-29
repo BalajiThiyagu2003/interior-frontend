@@ -6,7 +6,7 @@ import "../styles/login.css";
 
 const AuthPage = () => {
   const navigate = useNavigate();
-  const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign In & Sign Up
+  const [isSignUp, setIsSignUp] = useState(false); 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +19,6 @@ const AuthPage = () => {
     setMessage(""); 
   };
 
-  // Function to handle login
   const handleLogin = async () => {
     setError("");
     try {
@@ -32,14 +31,13 @@ const AuthPage = () => {
       if (!response.ok) throw new Error("Invalid email or password");
 
       const data = await response.json();
-      localStorage.setItem("authToken", data.token); // Store JWT token
-      navigate("/home"); // Redirect to home page after login
+      localStorage.setItem("authToken", data.token); 
+      navigate("/home"); 
     } catch (err) {
       setError(err.message);
     }
   };
 
-  // Function to handle sign up
   const handleSignUp = async () => {
     setError("");
     setMessage("");
@@ -53,7 +51,7 @@ const AuthPage = () => {
       if (!response.ok) throw new Error("Registration failed. Try again.");
 
       setMessage("Account created successfully! Please sign in.");
-      setIsSignUp(false); // Switch to login
+      setIsSignUp(false); 
     } catch (err) {
       setError(err.message);
     }

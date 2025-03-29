@@ -17,7 +17,6 @@ const Services = () => {
               <i className={`fas ${service.icon} fa-2x mb-2`} style={{ color: service.color }}></i>
               <p className="mt-2">{service.text}</p>
               
-              {/* Vertical Line Between Icons */}
               {index !== 3 && (
                 <div className="vertical-line"></div>
               )}
@@ -25,7 +24,6 @@ const Services = () => {
           ))}
         </Row>
 
-            {/* Full-Width Image */}
         <img
           src="./images/img13.jpeg" 
           alt="Our Services" 
@@ -46,7 +44,6 @@ const Services = () => {
               <h5 className="mt-2">{service.title}</h5>
               <p>{service.description}</p>
               
-              {/* Vertical Line Between Icons */}
               {index !== 3 && (
                 <div className="vertical-line"></div>
               )}
@@ -57,7 +54,6 @@ const Services = () => {
       
       </Container>
 
-      {/* CSS for Vertical Line */}
       <style>
         {`
           .vertical-line {

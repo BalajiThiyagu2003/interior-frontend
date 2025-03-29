@@ -7,7 +7,6 @@ const Contact = () => {
       <Container>
         <h2 className="contact-title mt-5">Reach Us</h2>
 
-        {/* Contact Info with Hover Effect */}
         <Row className="contact-info">
           <Col md={4}>
             <div>
@@ -29,7 +28,6 @@ const Contact = () => {
           </Col>
         </Row>
 
-        {/* Contact Form with Smooth Transitions */}
         <Form className="contact-form">
           <Row>
             <Col md={6}>

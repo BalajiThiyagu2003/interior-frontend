@@ -11,7 +11,7 @@ import "@fontsource/poppins";
 
 const MainContent = () => {
     const location = useLocation();
-    const hideFooter = location.pathname === "/"; // Check if the current page is login
+    const hideFooter = location.pathname === "/"; 
   
     return (
       <>
@@ -24,7 +24,7 @@ const MainContent = () => {
           <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
           
         </Routes>
-        {!hideFooter && <Footer />} {/* Render footer except on login page */}
+        {!hideFooter && <Footer />} 
       </>
     );
   };

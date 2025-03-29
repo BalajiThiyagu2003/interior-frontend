@@ -4,7 +4,6 @@ const Footer = () => {
   return (
     <footer className="container-fluid  py-5">
       <div className="row">
-        {/* About Section */}
         <div className="col-md-3">
           <h2 className="h5 text-primary">Ktb</h2>
           <p className="text-dark">
@@ -12,7 +11,6 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Locations */}
         <div className="col-md-3">
           <h2 className="h5 text-primary">We Are In</h2>
           <ul className="list-unstyled">
@@ -26,7 +24,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Social Media Links */}
         <div className="col-md-3">
           <h2 className="h5 text-primary">Follow Us</h2>
           <ul className="list-unstyled">
@@ -40,7 +37,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Newsletter Subscription */}
         <div className="col-md-3">
           <h2 className="h5 text-primary">Newsletter</h2>
           <p className="text-danger">Subscribe for the latest updates</p>

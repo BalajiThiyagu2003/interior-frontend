@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../src/App.css';
-import "@fontsource/poppins"; // Defaults to normal weight
+import "@fontsource/poppins"; 
 
 import { BrowserRouter as Router } from "react-router-dom";
 
