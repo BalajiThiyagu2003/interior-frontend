@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Button, Accordion } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import DesignGallery from './designgallery';
 
-// Counter Component
+
+
 const Counter = ({ target }) => {
     const [count, setCount] = useState(0);
 
@@ -23,7 +24,6 @@ const Counter = ({ target }) => {
     return <h1 className="stats-number">{count}+</h1>;
 };
 
-// Home Component (with animated counter)
 const Home = () => {
     const statsData = [
         { count: 100, label: "Services" },
@@ -56,57 +56,9 @@ const Home = () => {
     );
 };
 
-// Design Gallery Component
-const designData = [
-    { title: 'Modular Kitchen', image: '/images/img19.jpg', path: '/projects' },
-    { title: 'Bedroom', image: '/images/img8.jpg', path: '/projects' },
-    { title: 'Living Room', image: '/images/img9.jpg', path: '/projects' },
-    { title: 'Bathroom', image: '/images/img10.jpg', path: '/projects' },
-    { title: 'Workspace', image: '/images/img12.jpg', path: '/projects' },
-    { title: 'Dining Hall', image: '/images/img22.jpg', path: '/projects' }
-];
 
-const DesignGallery = () => {
-    const navigate = useNavigate();
 
-    const handleClick = (path) => {
-        window.scrollTo(0, 0); // Scroll to top
-        navigate(path);
-    };
 
-    return (
-        <div className="container py-5">
-            <h2 className="text-start mb-4">Design Gallery</h2>
-            <p className="text-start">
-                If you’re on the lookout for <strong>simple home interior designs</strong>,
-                look no further than HomeLane for <strong>end-to-end interior design</strong> services.
-            </p>
-            <div className="row">
-                {designData.map((item, index) => (
-                    <div className="col-md-4 mb-4" key={index}>
-                        <div className="card h-100">
-                            <img
-                                src={item.image}
-                                className="card-img-top"
-                                alt={item.title}
-                                style={{ height: '300px', width: '100%', objectFit: 'cover', cursor: 'pointer' }}
-                                onClick={() => handleClick(item.path)}
-                            />
-                            <div className="card-body d-flex flex-column align-items-center">
-                                <h5 className="card-title text-center">{item.title}</h5>
-                                <Button variant="primary" className="mt-2" onClick={() => handleClick(item.path)}>
-                                    View Projects
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-// FAQ Component
 const FAQ = () => {
     return (
         <><Row className="my-5 mx-5">
@@ -121,7 +73,6 @@ const FAQ = () => {
                     <h5 className="mt-2">{service.title}</h5>
                     <p>{service.description}</p>
 
-                    {/* Vertical Line Between Icons */}
                     {index !== 3 && (
                         <div className="vertical-line"></div>
                     )}
@@ -185,7 +136,6 @@ const FAQ = () => {
     );
 };
 
-// Main App Component (renders everything)
 const App = () => {
     return (
         <>
