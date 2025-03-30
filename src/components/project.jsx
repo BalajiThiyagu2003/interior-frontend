@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Modal, Carousel } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; 
+import Loader from "./common/loader";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [projectImages, setProjectImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     axios.get("http://localhost:8080/categories").then((response) => {
       setCategories(response.data);
+      setLoading(false);
     });
-
-    
   }, []);
 
   useEffect(() => {
@@ -25,6 +30,20 @@ const Projects = () => {
       setProjects(response.data);
     });
   }, [selectedCategoryId]);
+
+  useEffect(() => {
+    if (selectedProject) {
+      axios.get(`http://localhost:8080/project-images/${selectedProject.id}`)
+        .then((response) => {
+          setProjectImages(response.data);
+        })
+        .catch(() => {
+          setProjectImages([]);
+        });
+    }
+  }, [selectedProject]);
+
+  if (loading) return <Loader />;
 
   return (
     <section id="projects" className="py-5">
@@ -60,60 +79,57 @@ const Projects = () => {
                   src={project.imageUrl}
                   alt={project.name}
                   style={{ height: "250px", objectFit: "cover", cursor: "pointer" }}
-                  onClick={() => setSelectedImage(project.imageUrl)}
+                  onClick={() => setSelectedProject(project)}
                 />
                 <Card.Body className="d-flex flex-column justify-content-between">
                   <Card.Title className="text-center">{project.name}</Card.Title>
                   <Card.Text className="text-muted text-center">{project.description}</Card.Text>
+                  <Button variant="success" className="mt-2" onClick={() => {
+                    navigate("/contact");
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}>
+                    Book Now
+                  </Button>
                 </Card.Body>
               </Card>
             </Col>
           ))}
         </Row>
 
-        {selectedImage && (
-          <div
-            className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.8)", zIndex: 1050 }}
-            onClick={() => setSelectedImage(null)}
-          >
-            <div className="position-relative">
-              <Button
-                variant="light"
-                className="position-absolute"
-                style={{
-                  top: "-10px",
-                  right: "-10px",
-                  zIndex: 10,
-                  backgroundColor: "white",
-                  borderRadius: "50%",
-                  width: "40px",
-                  height: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "20px",
-                  boxShadow: "0 0 10px rgba(0,0,0,0.5)",
-                }}
-                onClick={() => setSelectedImage(null)}
-              >
-                ❌
+        {selectedProject && (
+          <Modal show={true} onHide={() => setSelectedProject(null)} size="lg" centered>
+            <Modal.Header closeButton>
+              <Modal.Title>{selectedProject.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {projectImages.length > 0 ? (
+                <Carousel>
+                  {projectImages.map((projectImage, index) => (
+                    <Carousel.Item key={index}>
+                      <img
+                        className="d-block w-100"
+                        src={projectImage.imageUrl}
+                        alt={`Slide ${index + 1}`}
+                        style={{ maxHeight: "500px", objectFit: "cover" }}
+                      />
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
+              ) : (
+                <p className="text-center">No images available</p>
+              )}
+              <p className="mt-3">{selectedProject.description}</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setSelectedProject(null)}>Close</Button>
+              <Button variant="success" className="mt-2" onClick={() => {
+                navigate("/contact");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}>
+                Book Now
               </Button>
-              <img
-                src={selectedImage}
-                alt="Selected"
-                className="img-fluid"
-                style={{
-                  width: "auto",
-                  height: "auto",
-                  maxWidth: "90vw",
-                  maxHeight: "90vh",
-                  display: "block",
-                  border: "none",
-                }}
-              />
-            </div>
-          </div>
+            </Modal.Footer>
+          </Modal>
         )}
       </Container>
     </section>
