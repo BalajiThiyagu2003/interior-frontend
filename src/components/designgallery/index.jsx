@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import Loader from '../common/loader'
 
 const DesignGallery = () => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const DesignGallery = () => {
         navigate(path);
     };
 
-    if (loading) return <p>Loading categories...</p>;
+    if (loading) return <Loader/>;
     if (error) return <p className="text-danger">{error}</p>;
 
     return (
