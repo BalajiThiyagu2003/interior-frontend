@@ -11,7 +11,11 @@ const DesignGallery = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/categories")
+        axios.get("http://localhost:8080/categories",{
+            headers:{
+                'Authorization':`Bearer ${localStorage.getItem('authToken')}`
+            }
+        })
             .then(response => {
                 setCategories(response.data); 
                 setLoading(false);
@@ -43,7 +47,7 @@ const DesignGallery = () => {
                     <div className="col-md-4 mb-4" key={category.id}>
                         <div className="card h-100">
                             <img
-                                src={`${window.location.origin}/${category.imageUrl}`}
+                                src={category.imageUrl}
                                 className="card-img-top"
                                 alt={category.name}
                                 style={{ height: '300px', width: '100%', objectFit: 'cover', cursor: 'pointer' }}
