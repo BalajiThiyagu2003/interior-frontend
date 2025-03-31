@@ -1,27 +1,29 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import '/Main Project/interior-frontend/src/App.css';
+import '../src/App.css';
 import "@fontsource/poppins"; 
 
 import { BrowserRouter as Router } from "react-router-dom";
 
 
 
-import Header from "./components/header";
-import MainContent from "./components/MainComponent";
+import Header from "./components/header/header";
+import MainContent from "./components/maincomponent/MainComponent";
+import { UserProvider } from "./components/usercontext/usercontext";
 
 
 const App = () => {
 
   return (
-    <>
+    <UserProvider>
   
       <Router>
 
         <Header />
-        <MainContent />
+        <MainContent/>
+        
       </Router>
-    </>
+      </UserProvider>
   );
 };
 
