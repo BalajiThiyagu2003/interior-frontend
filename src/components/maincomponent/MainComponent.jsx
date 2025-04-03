@@ -10,13 +10,17 @@ import AuthPage from "../login/login";
 import "@fontsource/poppins";
 import ContactTable from "../contactlist/contactlist";
 import AddProject from "../addproject/addproject";
+import Header from "../header/header";
 
 const MainContent = () => {
   const location = useLocation();
   const hideFooter = location.pathname === "/";
-
+    const hideheader = location.pathname === "/login";
+  
   return (
-    <>   <Routes>
+    <>  
+      {!hideheader &&<Header/>}
+     <Routes>
       <Route path="/" element={<Navigate to={'/login'} />} />
       <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
       <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
@@ -29,6 +33,8 @@ const MainContent = () => {
 
     </Routes>
       {!hideFooter && <Footer />}
+     
+
     </>
 
   );

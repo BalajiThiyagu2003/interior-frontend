@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../common/loader";
 import UserContext from "../usercontext/usercontext";
+import "../login/login.css";
+
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -91,7 +93,7 @@ const Projects = () => {
 
           ))}
         </div>
-        {user && user.isAdmin && <div className="text-center mb-4">
+        {user && user.isAdmin && <div className="text-center mb-4 ">
           <Button variant="success" onClick={() => navigate("/add-project")}>
             Add Project
           </Button>
@@ -101,7 +103,7 @@ const Projects = () => {
         <Row>
           {projects.map((project) => (
             <Col key={project.id} md={4} className="mt-4 mb-4 d-flex">
-              <Card className="h-100 shadow-lg d-flex flex-column border-0">
+              <Card className="card h-100 shadow-lg d-flex flex-column border-0">
                 <Card.Img
                   variant="top"
                   src={project.imageUrl}
@@ -152,8 +154,8 @@ const Projects = () => {
               <p className="mt-3">{selectedProject.description}</p>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => setSelectedProject(null)}>Close</Button>
-              <Button variant="success" className="mt-2" onClick={() => {
+              <Button variant="secondary"  className="mt-1" onClick={() => setSelectedProject(null)}>Close</Button>
+              <Button variant="success" className="mt-1" onClick={() => {
                 navigate("/contact");
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}>

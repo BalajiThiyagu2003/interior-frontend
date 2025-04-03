@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { Container, TextField, Button, Typography, Box, Grid, IconButton } from "@mui/material";
-import { Google, Facebook, GitHub, LinkedIn } from "@mui/icons-material";
+import { Container, TextField, Button, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../login/login.css";
 
 const AuthPage = () => {
-  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false); 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,13 +64,6 @@ const AuthPage = () => {
 
         {error && <Typography color="error" align="center">{error}</Typography>}
         {message && <Typography color="primary" align="center">{message}</Typography>}
-
-        <Grid container justifyContent="center" spacing={1}>
-          <Grid item><IconButton color="primary"><Google /></IconButton></Grid>
-          <Grid item><IconButton color="primary"><Facebook /></IconButton></Grid>
-          <Grid item><IconButton color="primary"><GitHub /></IconButton></Grid>
-          <Grid item><IconButton color="primary"><LinkedIn /></IconButton></Grid>
-        </Grid>
 
         <Typography variant="body2" align="center" gutterBottom>
           or use your email to {isSignUp ? "register" : "login"}

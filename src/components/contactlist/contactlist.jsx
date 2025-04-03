@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
 import { Table, Container, Alert } from "react-bootstrap";
 import UserContext from "../usercontext/usercontext";
 import Loader from "../common/loader";
+import "../login/login.css";
+
 
 const ContactTable = () => {
     const { user } = useContext(UserContext);
@@ -38,10 +39,11 @@ const ContactTable = () => {
         <Container className="mt-5">
             {user && user.isAdmin ? (
                 <>
-                    <h2 className="text-center text-white bg-dark p-4 rounded shadow">Contact List</h2>
+                <div className="contact-list">
+                    <h2 className="text-center text-white p-2  rounded shadow">Contact List</h2>
                     <div className="table-responsive shadow-lg p-3 rounded bg-light">
                         <Table striped bordered hover>
-                            <thead className="table-dark">
+                            <thead className="table">
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
@@ -71,7 +73,7 @@ const ContactTable = () => {
                             </tbody>
                         </Table>
                     </div>
-                    
+                    </div>
                 </>
             ) : (
                 <Alert variant="danger" className="text-center">
